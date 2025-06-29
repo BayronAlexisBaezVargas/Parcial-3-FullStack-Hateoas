@@ -7,7 +7,7 @@ public class Reseña {
     private Long idUsuario;
     private Long idProducto;
 
-    // Constructor vacío (necesario para Spring)
+    // Constructor
     public Reseña() {}
 
     // Getters y setters
