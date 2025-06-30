@@ -32,6 +32,14 @@ public class ProductoService {
     public void eliminar(long id){
         repo.deleteById(id);
     }
+    //Actualizar x id
+    public Producto actualizar(long id, Producto producto){
+        Producto prod = repo.findById(id).get();
+        prod.setId(id);
+        prod.setNombre(producto.getNombre());
+        prod.setPrecio(producto.getPrecio());
+        return repo.save(prod);
+    }
 
 
 }

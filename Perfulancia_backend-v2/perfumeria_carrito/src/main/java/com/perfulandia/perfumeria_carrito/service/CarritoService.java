@@ -37,4 +37,13 @@ public class CarritoService {
         return repo.save(carrito);
     }
 
+    public Carrito actualizar(Long id, Carrito carrito){
+        Carrito car = repo.findById(id).get();
+        car.setId(id);
+        car.setCantidad_productos(carrito.getCantidad_productos());
+        car.setTotal(carrito.getTotal());
+        car.setUsuario(carrito.getUsuario());
+        return repo.save(car);
+    }
+
 }

@@ -35,6 +35,15 @@ public class UsuarioService {
     public void eliminar(long id){
         repo.deleteById(id);
     }
+    //Actualizar
+    public Usuario actualizar(Long id, Usuario usuario){
+      Usuario usu = repo.findById(id).get();
+      usu.setId(id);
+      usu.setCorreo(usuario.getCorreo());
+      usu.setNombre(usuario.getNombre());
+      usu.setRol(usuario.getRol());
+      return repo.save(usu);
+    }
 
 
 

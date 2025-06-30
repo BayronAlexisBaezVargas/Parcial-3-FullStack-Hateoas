@@ -2,54 +2,59 @@ package com.perfulandia.perfumeria_carrito.controller;
 
 import com.perfulandia.perfumeria_carrito.model.Carrito;
 import com.perfulandia.perfumeria_carrito.service.CarritoService;
+import com.perfulandia.perfumeria_carrito.assembler.CarritoModelAssembler;
+
 import java.util.List;
+
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.client.RestTemplate;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 
 @RestController
 @RequestMapping("/api/v1/carritos")
 public class CarritoController {
-
     private final CarritoService service;
+    private final CarritoModelAssembler assembler;
+
     public CarritoController(CarritoService service){
         this.service = service;
+        this.assembler = new CarritoModelAssembler();
     }
+
     @GetMapping
-    public List<Carrito> listar(){
-        return service.listar();
-    }
-    @PostMapping
-    public Carrito guardar(@RequestBody Carrito carrito){
-        return service.guardar(carrito);
+    public CollectionModel<EntityModel<Carrito>> listar(){
+        List<EntityModel<Carrito>> carritos = service.listar().stream()
+                .map(assembler::toModel).toList();
+        return CollectionModel.of(carritos,
+                linkTo(methodOn(CarritoController.class).listar()).withSelfRel()
+        );
     }
 
     @GetMapping("/{id}")
-    public Carrito buscar(@PathVariable long id){
-        return service.buscarPorId(id);
+    public EntityModel<Carrito> buscar(@PathVariable long id){
+        return assembler.toModel(service.buscarPorId(id));
     }
 
-    @DeleteMapping("/{id}")
-    public void borrar(@PathVariable long id){
-        service.eliminar(id);
+    @PostMapping
+    public EntityModel<Carrito> guardar(@RequestBody Carrito carrito){
+        Carrito guardado = service.guardar(carrito);
+        return assembler.toModel(guardado);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carrito> actualizar(@PathVariable long id, @RequestBody Carrito carrito){
-        try{
-            Carrito car = service.findById(Long.valueOf(id));
-            car.setId(id);
-            car.setCantidad_productos(carrito.getCantidad_productos());
-            car.setTotal(carrito.getTotal());
-            car.setUsuario(carrito.getUsuario());
+    public EntityModel<Carrito> actualizar(@PathVariable long id, @RequestBody Carrito carrito){
+        Carrito actualizado = service.actualizar(id, carrito);
+        return assembler.toModel(actualizado);
+    }
 
-            service.save(car);
-            return ResponseEntity.ok(car);
-        }catch ( Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable long id){
+        service.eliminar(id);
     }
 
 }
