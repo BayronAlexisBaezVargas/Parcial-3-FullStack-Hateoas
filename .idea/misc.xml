@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Perfulancia_backend-v2/usuarioservice/pom.xml" />
+        <option value="$PROJECT_DIR$/Perfulancia_backend-v2/perfumeria-pedido/pom.xml" />
+        <option value="$PROJECT_DIR$/Perfulancia_backend-v2/perfumeria_carrito/pom.xml" />
+        <option value="$PROJECT_DIR$/Perfulancia_backend-v2/perfulandia_producto/pom.xml" />
+        <option value="$PROJECT_DIR$/Perfulancia_backend-v2/Microservicio_Inventario/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Perfulancia_backend-v2/perfumeria-pedido/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
