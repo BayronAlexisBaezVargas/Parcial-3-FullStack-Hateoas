@@ -1,16 +1,21 @@
 package com.perfulandia.resena_service.controller;
 
 import com.perfulandia.resena_service.model.Reseña;
+import com.perfulandia.resena_service.service.ReseñaService;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.*;
 
 @RestController
 @RequestMapping("/reseñas")
 public class ReseñaController {
-
+    private final ReseñaService servicio;
+    public ReseñaController(ReseñaService servicio) {
+        this.servicio = servicio;
+    }
     private Map<Long, Reseña> reseñas = new HashMap<>();
     private Long idCounter = 1L;
 
@@ -45,5 +50,15 @@ public class ReseñaController {
         EntityModel<Reseña> recurso = EntityModel.of(nueva);
         recurso.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReseñaController.class).obtenerPorId(nueva.getId())).withSelfRel());
         return recurso;
+    }
+
+    @PutMapping("/{id}")
+    public Reseña actualizar(@PathVariable Long id, @RequestBody @Valid Reseña reseñaActualizada) {
+        return servicio.actualizar(id, reseñaActualizada);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        servicio.eliminar(id);
     }
 }
