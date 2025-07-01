@@ -7,7 +7,7 @@ public class Reseña {
     private Long idUsuario;
     private Long idProducto;
 
-    // Constructor
+    // Constructorr
     public Reseña() {}
 
     // Getters y setters
